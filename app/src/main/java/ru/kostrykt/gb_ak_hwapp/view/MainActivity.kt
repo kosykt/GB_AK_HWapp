@@ -1,8 +1,8 @@
-package ru.kostrykt.gb_ak_hwapp
+package ru.kostrykt.gb_ak_hwapp.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import ru.kostrykt.gb_ak_hwapp.ui.main.MainFragment
+import ru.kostrykt.gb_ak_hwapp.R
 
 class MainActivity : AppCompatActivity() {
 
