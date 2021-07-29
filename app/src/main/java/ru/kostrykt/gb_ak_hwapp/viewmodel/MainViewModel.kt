@@ -4,10 +4,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import ru.kostrykt.gb_ak_hwapp.model.AppState
+import ru.kostrykt.gb_ak_hwapp.repository.Repository
+import ru.kostrykt.gb_ak_hwapp.repository.RepositoryImpl
 import java.lang.Thread.sleep
 
-class MainViewModel()
-    : ViewModel() {
+class MainViewModel(private val repository: Repository = RepositoryImpl()) : ViewModel() {
 
     private val liveDataToObserver: MutableLiveData<AppState> = MutableLiveData()
 
@@ -17,12 +18,21 @@ class MainViewModel()
         return liveDataToObserver
     }
 
-    fun requestData(data: String) {
+    fun getWeatherFromLocalSource(){
+        liveDataToObserver.value = AppState.Loading
+        Thread{
+            sleep(500)
+            counter++
+            liveDataToObserver.postValue(AppState.Success(repository.getWeatherFromLocalSource()))
+        }.start()
+    }
+
+    fun getWeatherFromRemoteSource(){
         liveDataToObserver.value = AppState.Loading
         Thread{
             sleep(2000)
             counter++
-            liveDataToObserver.postValue(AppState.Success(data + counter))
+            liveDataToObserver.postValue(AppState.Success(repository.getWeatherFromSever()))
         }.start()
     }
 }
