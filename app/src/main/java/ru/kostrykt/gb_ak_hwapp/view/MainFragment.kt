@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import ru.kostrykt.gb_ak_hwapp.R
+import ru.kostrykt.gb_ak_hwapp.databinding.MainFragmentBinding
 import ru.kostrykt.gb_ak_hwapp.viewmodel.MainViewModel
 
 class MainFragment : Fragment() {
@@ -18,14 +19,22 @@ class MainFragment : Fragment() {
     }
 
     private lateinit var viewModel: MainViewModel
+    private var _binding: MainFragmentBinding? = null
+    private val binding
+        get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        return inflater.inflate(R.layout.main_fragment, container, false)
+        _binding = MainFragmentBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,12 +43,15 @@ class MainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val observer = Observer<Any>{ renderData(it)}
+        val observer = Observer<String>{ renderData(it)}
         viewModel.getData().observe(viewLifecycleOwner, observer)
+        binding.button1.setOnClickListener{
+            viewModel.requestData(binding.editText.text.toString())
+        }
     }
 
-    private fun renderData(Data: Any) {
-        Toast.makeText(context, "data", Toast.LENGTH_SHORT).show()
+    private fun renderData(data: String) {
+        binding.message.text = data
     }
 
 }
