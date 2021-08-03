@@ -8,31 +8,29 @@ import ru.kostrykt.gb_ak_hwapp.repository.Repository
 import ru.kostrykt.gb_ak_hwapp.repository.RepositoryImpl
 import java.lang.Thread.sleep
 
-class MainViewModel(private val repository: Repository = RepositoryImpl()) : ViewModel() {
+class MainViewModel(private val repository: Repository = RepositoryImpl()) :
+    ViewModel() {
 
-    private val liveDataToObserver: MutableLiveData<AppState> = MutableLiveData()
+    private val liveDataToObserve: MutableLiveData<AppState> = MutableLiveData()
 
-    private var counter: Int = 0
-
-    fun getData(): LiveData<AppState>{
-        return liveDataToObserver
+    fun getData(): LiveData<AppState> {
+        return liveDataToObserve
     }
 
-    fun getWeatherFromLocalSource(){
-        liveDataToObserver.value = AppState.Loading
-        Thread{
-            sleep(500)
-            counter++
-            liveDataToObserver.postValue(AppState.Success(repository.getWeatherFromLocalSource()))
-        }.start()
-    }
+    fun getWeatherFromLocalSourceRus() = getDataFromLocalSource(isRussia = true)
 
-    fun getWeatherFromRemoteSource(){
-        liveDataToObserver.value = AppState.Loading
-        Thread{
-            sleep(2000)
-            counter++
-            liveDataToObserver.postValue(AppState.Success(repository.getWeatherFromSever()))
+    fun getWeatherFromLocalSourceWorld() = getDataFromLocalSource(isRussia = false)
+
+    private fun getDataFromLocalSource(isRussia: Boolean) {
+        liveDataToObserve.value = AppState.Loading
+        Thread {
+            sleep(3000)
+            liveDataToObserve.postValue(
+                AppState.Success(
+                    if (isRussia) repository.getWeatherFromLocalStorageRus()
+                    else repository.getWeatherFromLocalStorageWorld()
+                )
+            )
         }.start()
     }
 }
