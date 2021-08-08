@@ -4,18 +4,11 @@ import ru.kostrykt.gb_ak_hwapp.data.Weather
 import ru.kostrykt.gb_ak_hwapp.data.getRussianCities
 import ru.kostrykt.gb_ak_hwapp.data.getWorldCities
 
-class RepositoryImpl: Repository {
-    override fun getWeatherFromSever(): Weather {
-        return Weather()
-    }
+class RepositoryImpl : Repository {
 
-    override fun getWeatherFromLocalStorageRus(): List<Weather> {
-        return getRussianCities()
-    }
+    override fun getWeatherFromSever() = Weather()
 
-    override fun getWeatherFromLocalStorageWorld(): List<Weather> {
-        return getWorldCities()
-    }
+    override fun getWeatherFromLocalStorageRus() = getRussianCities()
 
-
+    override fun getWeatherFromLocalStorageWorld() = getWorldCities()
 }

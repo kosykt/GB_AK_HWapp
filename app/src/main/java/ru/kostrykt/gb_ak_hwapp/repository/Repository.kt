@@ -6,5 +6,4 @@ interface Repository {
     fun getWeatherFromSever(): Weather
     fun getWeatherFromLocalStorageRus(): List<Weather>
     fun getWeatherFromLocalStorageWorld(): List<Weather>
-
 }
