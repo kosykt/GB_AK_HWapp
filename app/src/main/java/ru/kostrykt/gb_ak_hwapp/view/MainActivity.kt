@@ -5,7 +5,6 @@ import android.os.Bundle
 import ru.kostrykt.gb_ak_hwapp.R
 import ru.kostrykt.gb_ak_hwapp.databinding.MainActivityBinding
 
-
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: MainActivityBinding
