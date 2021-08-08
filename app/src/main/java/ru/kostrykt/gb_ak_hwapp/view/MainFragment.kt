@@ -14,6 +14,7 @@ import ru.kostrykt.gb_ak_hwapp.databinding.MainFragmentBinding
 import ru.kostrykt.gb_ak_hwapp.model.AppState
 import ru.kostrykt.gb_ak_hwapp.viewmodel.MainViewModel
 
+
 class MainFragment : Fragment() {
 
     companion object {
