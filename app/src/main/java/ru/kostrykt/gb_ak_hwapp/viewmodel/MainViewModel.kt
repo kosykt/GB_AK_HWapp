@@ -22,7 +22,7 @@ class MainViewModel(private val repository: Repository = RepositoryImpl()) :
     private fun getDataFromLocalSource(isRussia: Boolean) {
         liveDataToObserve.value = AppState.Loading
         Thread {
-            sleep(3000)
+            sleep(30)
             liveDataToObserve.postValue(
                 AppState.Success(
                     if (isRussia) repository.getWeatherFromLocalStorageRus()
