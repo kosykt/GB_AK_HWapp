@@ -14,7 +14,6 @@ import ru.kostrykt.gb_ak_hwapp.viewmodel.MainViewModel
 
 class MainFragment : Fragment() {
 
-
     companion object {
         fun newInstance() = MainFragment()
     }
