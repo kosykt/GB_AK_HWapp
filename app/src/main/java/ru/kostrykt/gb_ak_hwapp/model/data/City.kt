@@ -1,4 +1,4 @@
-package ru.kostrykt.gb_ak_hwapp.data
+package ru.kostrykt.gb_ak_hwapp.model.data
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize

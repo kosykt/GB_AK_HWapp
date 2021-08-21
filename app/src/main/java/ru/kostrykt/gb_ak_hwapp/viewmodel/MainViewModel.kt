@@ -4,8 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import ru.kostrykt.gb_ak_hwapp.model.AppState
-import ru.kostrykt.gb_ak_hwapp.repository.Repository
-import ru.kostrykt.gb_ak_hwapp.repository.RepositoryImpl
+import ru.kostrykt.gb_ak_hwapp.model.repository.Repository
+import ru.kostrykt.gb_ak_hwapp.model.repository.RepositoryImpl
 import java.lang.Thread.sleep
 
 class MainViewModel(private val repository: Repository = RepositoryImpl()) :
@@ -22,7 +22,7 @@ class MainViewModel(private val repository: Repository = RepositoryImpl()) :
     private fun getDataFromLocalSource(isRussia: Boolean) {
         liveDataToObserve.value = AppState.Loading
         Thread {
-            sleep(30)
+            sleep(3000)
             liveDataToObserve.postValue(
                 AppState.Success(
                     if (isRussia) repository.getWeatherFromLocalStorageRus()

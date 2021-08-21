@@ -2,9 +2,10 @@ package ru.kostrykt.gb_ak_hwapp.view
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
-import ru.kostrykt.gb_ak_hwapp.data.Weather
 import ru.kostrykt.gb_ak_hwapp.databinding.MainRecyclerItemBinding
+import ru.kostrykt.gb_ak_hwapp.model.data.Weather
 
 class MainFragmentAdapter :
     RecyclerView.Adapter<MainFragmentAdapter.MainViewHolder>() {
@@ -12,7 +13,7 @@ class MainFragmentAdapter :
     private var weatherData: List<Weather> = listOf()
     private var onItemViewClickListener: (Weather) -> Unit = {}
 
-    fun setOnItemViewClickListener(onItemViewClickListener: (Weather) -> Unit) {
+    fun setOnItemViewClickListener(onItemViewClickListener: (Weather) -> Unit){
         this.onItemViewClickListener = onItemViewClickListener
     }
 
