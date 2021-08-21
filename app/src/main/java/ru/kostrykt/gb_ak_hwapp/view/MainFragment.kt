@@ -1,9 +1,11 @@
 package ru.kostrykt.gb_ak_hwapp.view
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.edit
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -11,6 +13,8 @@ import ru.kostrykt.gb_ak_hwapp.R
 import ru.kostrykt.gb_ak_hwapp.databinding.MainFragmentBinding
 import ru.kostrykt.gb_ak_hwapp.model.AppState
 import ru.kostrykt.gb_ak_hwapp.viewmodel.MainViewModel
+
+private const val IS_RUSSIAN_KEY = "LIST_OF_RUSSIAN_KEY"
 
 class MainFragment : Fragment() {
 
@@ -50,15 +54,37 @@ class MainFragment : Fragment() {
         binding.mainFragmentRecyclerView.adapter = adapter
         binding.mainFragmentFAB.setOnClickListener {
             changeWeatherDataSet()
+            saveListOfTowns()
         }
         val observer = Observer<AppState> { a ->
             renderData(a)
         }
         viewModel.getData().observe(viewLifecycleOwner, observer)
-        viewModel.getWeatherFromLocalSourceWorld()
+        loadListOfTowns()
+        showWeatherDataSet()
+    }
+
+    private fun loadListOfTowns() {
+        requireActivity().apply {
+            isDataSetRus = getPreferences(Context.MODE_PRIVATE).getBoolean(IS_RUSSIAN_KEY, true)
+        }
+    }
+
+    private fun saveListOfTowns() {
+        requireActivity().apply {
+            getPreferences(Context.MODE_PRIVATE).edit {
+                putBoolean(IS_RUSSIAN_KEY, isDataSetRus)
+                apply()
+            }
+        }
     }
 
     private fun changeWeatherDataSet() {
+        isDataSetRus = !isDataSetRus
+        showWeatherDataSet()
+    }
+
+    private fun showWeatherDataSet() {
         if (isDataSetRus) {
             viewModel.getWeatherFromLocalSourceRus()
             binding.mainFragmentFAB.setImageResource(R.drawable.ic_earth)
@@ -66,7 +92,6 @@ class MainFragment : Fragment() {
             viewModel.getWeatherFromLocalSourceWorld()
             binding.mainFragmentFAB.setImageResource(R.drawable.ic_russia)
         }
-        isDataSetRus = !isDataSetRus
     }
 
     private fun renderData(data: AppState) {
