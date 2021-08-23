@@ -17,6 +17,7 @@ import ru.kostrykt.gb_ak_hwapp.BuildConfig
 import ru.kostrykt.gb_ak_hwapp.R
 import ru.kostrykt.gb_ak_hwapp.databinding.DetailsFragmentBinding
 import ru.kostrykt.gb_ak_hwapp.model.AppState
+import ru.kostrykt.gb_ak_hwapp.model.data.City
 import ru.kostrykt.gb_ak_hwapp.model.data.Weather
 import ru.kostrykt.gb_ak_hwapp.model.dto.WeatherDTO
 import ru.kostrykt.gb_ak_hwapp.viewmodel.DetailsViewModel
@@ -74,7 +75,10 @@ class DetailsFragment : Fragment() {
                 binding.main.show()
                 binding.loadingLayout.hide()
                 binding.main.showSnackBar(getString(R.string.error), getString(R.string.reload)) {
-                    viewModel.getWeatherFromRemoteSource(weatherBundle.city.lat, weatherBundle.city.lon)
+                    viewModel.getWeatherFromRemoteSource(
+                        weatherBundle.city.lat,
+                        weatherBundle.city.lon
+                    )
                 }
             }
         }
@@ -89,6 +93,7 @@ class DetailsFragment : Fragment() {
                     city.lat.toString(),
                     city.lon.toString()
                 )
+                saveCity(city, weather)
             }
             weather.let {
                 temperatureValue.text = it.temperature.toString()
@@ -100,6 +105,20 @@ class DetailsFragment : Fragment() {
                 .load("https://freepngimg.com/thumb/city/36275-3-city-hd.png")
                 .into(headerIcon)
         }
+    }
+
+    private fun saveCity(
+        city: City,
+        weather: Weather
+    ) {
+        viewModel.saveCityToDB(
+            Weather(
+                city,
+                weather.temperature,
+                weather.feelsLike,
+                weather.condition
+            )
+        )
     }
 
     companion object {
